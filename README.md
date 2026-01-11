@@ -8,3 +8,5 @@ https://www.amazon.com/dp/B08BC98RKR
 
 Battery to AC power adapter
 https://www.amazon.com/dp/B0873Y5MQ5
+
+https://community.home-assistant.io/t/diy-23-55-alternative-to-myq/642620
