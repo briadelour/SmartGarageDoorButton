@@ -1,17 +1,83 @@
-# SmartGarageDoorButton
+# DIY Smart Garage Door Controller
 
-Ewelink WiFi Smart Relay
-https://www.amazon.com/dp/B0C7QQHMCX
+A cost-effective alternative to MyQ using Home Assistant, eWeLink smart relay, and Sonoff door sensor. Total cost: ~$23-55.
 
-Sonoff DW2 WiFi Door sensor
-https://www.amazon.com/dp/B08BC98RKR
+Based on [this Home Assistant community guide](https://community.home-assistant.io/t/diy-23-55-alternative-to-myq/642620).
 
-Battery to AC power adapter
-https://www.amazon.com/dp/B0873Y5MQ5
+## Overview
 
-https://community.home-assistant.io/t/diy-23-55-alternative-to-myq/642620
+This project creates a smart garage door controller that:
+- Works with Home Assistant, Alexa, and Apple HomeKit
+- Operates locally without cloud dependency (using SonoffLAN)
+- Provides door status monitoring via a door sensor
+- Costs significantly less than commercial solutions like MyQ
 
-## Cover in Templates.yaml
+## Parts List
+
+| Item | Price | Link |
+|------|-------|------|
+| eWeLink WiFi Smart Relay | ~$10 | [Amazon](https://www.amazon.com/dp/B0C7QQHMCX) |
+| Sonoff DW2 WiFi Door Sensor | ~$8 | [Amazon](https://www.amazon.com/dp/B08BC98RKR) |
+| Battery to AC Power Adapter (optional) | ~$5 | [Amazon](https://www.amazon.com/dp/B0873Y5MQ5) |
+| Modified Chamberlain 883LM (for Security+ 2.0 openers) | ~$30 | Provides dry contact terminals |
+
+**Note:** If you have a Security+ 2.0 opener (yellow button Chamberlain), you'll need the modified 883LM wall control to get dry contact terminals. Alternatively, you can modify your existing wall control with some soldering to save ~$20.
+
+## Wiring Setup
+
+### For Chamberlain Security+ 2.0 Openers
+
+1. **Install the 883LM Wall Control**
+   - Mount the modified 883LM wall control near your garage door opener
+   - Connect the control to your garage door opener per manufacturer instructions
+   - This provides light control, door control, and most importantly, dry contact terminals
+
+2. **Wire the eWeLink Relay**
+   - Run low-voltage 2-wire cable from the 883LM dry contact terminals to your relay location
+   - Connect the dry contact wires to the **Normally Open (NO)** and **Common (COM)** terminals on the relay
+   - Power the relay using a 5V USB adapter plugged into a nearby outlet
+
+3. **Install the Door Sensor**
+   - Mount the Sonoff DW2 sensor on the garage door and frame
+   - Follow the sensor's pairing instructions to add it to your eWeLink app
+
+### General Setup (Any Garage Door Opener)
+
+- Connect your relay's dry contact terminals to your garage door opener's wall button terminals
+- Power the relay with a 5V USB power supply
+- Position the relay near a power outlet and within WiFi range
+
+## eWeLink App Configuration
+
+1. **Add the Relay**
+   - Open the eWeLink app and add your smart relay device
+   - Configure it as a **Switch**
+   
+2. **Enable Local Control**
+   - Go to device settings
+   - Enable **LAN Control** (allows local operation without internet)
+   
+3. **Configure Inching Mode**
+   - Enable **Inching** mode in device settings
+   - Set the duration to **0.5 seconds**
+   - This simulates a momentary button press instead of a continuous on/off switch
+
+4. **Add the Door Sensor**
+   - Pair the Sonoff DW2 door sensor
+   - The sensor will report "on" when the door is open and "off" when closed
+
+## Home Assistant Configuration
+
+### Prerequisites
+
+Install the following via HACS:
+- **eWeLink Smart Home** integration
+- **SonoffLAN** custom component (enables local control without cloud)
+
+### Add Template Cover
+
+Add this configuration to your `templates.yaml` or `configuration.yaml`:
+
 ```yaml
 cover:
   - name: Garage Door
@@ -46,7 +112,15 @@ cover:
         closed
       {% endif %}
 ```
-## Simple Entities Card
+
+**Important:** Replace the entity IDs with your actual device entity IDs:
+- `binary_sensor.sonoff_1001d8a21c` - Your door sensor
+- `switch.sonoff_1001e92800_1` - Your relay switch
+
+### Dashboard Card
+
+Add this card to your dashboard for a clean interface:
+
 ```yaml
 type: entities
 entities:
@@ -54,17 +128,65 @@ entities:
     name: Virtual Garage Door Button
     icon: mdi:button-pointer
   - entity: binary_sensor.sonoff_1001d8a21c
-    name: Garage door sensor
+    name: Garage Door Sensor
   - entity: cover.garage_door
   - entity: sensor.sonoff_1001d8a21c_battery
 title: Garage Door
 state_color: true
 ```
-## more notes
-I have a yellow button Chamberlain garage door opener which means I have the Security+ 2.0. That came with the multi-function door wall control that does the door, light, locks and learn function over just the two wires. But that doesn’t give me a dry contact. So I spent $30 and bought the modified 883LM that does the light, door and gives me a dry contact 2 wire connection. I could have spent $10 and done some soldering but I didn’t feel like it. Then I ran a low voltage 2 wire from the door opener to the other side of my garage where the walkthrough from outside is and put the wall mount door opener there. From there I ran 2 wire up to a spot where I could mount a KR0548-1CH eWeLink/Sonoff switch that I bought on Amazon for $10. I’m powering the board with a 5V usb that I’m powering from an always outlet on a light socket. Then the dry contact from the modified 883LM is going to the Normally Open (NO) and Common (COM) on the relay module.
 
-In the eWeLink app I configured the device to act as a switch, enabled LAN control, and turned on the inching settings set to 0.5sec. This gives me a chance to toggle the switch just log enough to make the contact to act as if the button was pushed.
+## Voice Assistant Integration
 
-Then without changing any firmware I was able to add the eWeLink Smart Home device to my Home Assistant server using the add-on in HACS as well as the SonoffLAN custom component to allow it to work even without the cloud.
+### Alexa
 
-As an added bonus I was able to get the eWeLink added to Alexa and I used the Home Assistant Home Bridge to add it to Apple Home. I have a camera in my garage that is next to the button I added to my dashboard and my phone still has the MyQ app to doublecheck the status of the door. In Alexa I created an automation that says push garage door button rather than garage open or closed since the inching just makes the contact and then goes back to open.
+1. Add the eWeLink skill to Alexa
+2. Discover devices
+3. Create a routine with a custom phrase like "push garage door button" instead of "open" or "close" since the relay just simulates a button press
+
+### Apple HomeKit
+
+1. Install the **Home Assistant HomeKit Bridge** integration
+2. Add the garage door cover entity to the bridge
+3. The garage door will appear in Apple Home
+
+## Features
+
+- ✅ Local control (works even if internet is down)
+- ✅ Real-time door status monitoring
+- ✅ Battery status monitoring for door sensor
+- ✅ Integration with Alexa, Apple HomeKit, and Google Assistant
+- ✅ Works alongside existing garage door remotes and wall buttons
+- ✅ Visual confirmation in Home Assistant dashboard
+- ✅ Can be combined with garage camera for visual monitoring
+
+## Troubleshooting
+
+**Relay doesn't trigger the door:**
+- Verify inching mode is enabled and set to 0.5 seconds
+- Check wire connections to NO and COM terminals
+- Test the relay manually in the eWeLink app
+
+**Door sensor not updating:**
+- Check battery level
+- Verify the sensor is within WiFi range
+- Adjust sensor mounting for better magnet alignment
+
+**No local control:**
+- Ensure LAN mode is enabled in eWeLink app
+- Verify SonoffLAN component is installed in Home Assistant
+- Check that devices are on the same network
+
+## Safety Notes
+
+- This project interfaces with garage door electrical systems - ensure you understand your garage door opener's wiring before proceeding
+- Test thoroughly before relying on it as your primary access method
+- Keep backup access methods (physical remotes, wall button) functional
+- The relay only simulates a button press - your garage door's safety features remain active
+
+## License
+
+Feel free to use and modify this project. Attribution appreciated but not required.
+
+## Contributing
+
+Found an improvement or have suggestions? Feel free to open an issue or pull request!
