@@ -21,7 +21,8 @@ This project creates a smart garage door controller that:
 | Battery to AC Power Adapter (optional) | ~$5 | [Amazon](https://www.amazon.com/dp/B0873Y5MQ5) |
 | Modified Chamberlain 883LM (for Security+ 2.0 openers) | ~$30 | Provides dry contact terminals |
 
-**Note:** If you have a Security+ 2.0 opener (yellow button Chamberlain), you'll need the modified 883LM wall control to get dry contact terminals. Alternatively, you can modify your existing wall control with some soldering to save ~$20.
+**Note 1:** If you have a Security+ 2.0 opener (yellow button Chamberlain), you'll need the modified 883LM wall control to get dry contact terminals. Alternatively, you can modify your existing wall control with some soldering to save ~$20.
+**Note 2:** I originally had an outdoor outlet cover as a case for the smart relay but that was too large and I didn't like the look.  So I found that you can modify a Harry's Razor Blade Refill plastic container and it works well as a compact housing.
 
 ## Wiring Setup
 
