@@ -77,7 +77,7 @@ This project creates a smart garage door controller that:
 ### Prerequisites
 
 Install one of the following via HACS:
-- **eWeLink Smart Home** integration
+- **eWeLink Smart Home** official integration
 - **SonoffLAN** custom component (enables local control without cloud), https://github.com/AlexxIT/SonoffLAN
 (I prefer the SonoffLAN so it's all local)
 
