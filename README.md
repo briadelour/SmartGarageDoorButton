@@ -2,7 +2,9 @@
 
 A cost-effective alternative to MyQ using Home Assistant, eWeLink smart relay, and Sonoff door sensor. Total cost: ~$23-55.
 
+<div align=center>
 <img width="501" height="274" alt="image" src="https://github.com/user-attachments/assets/8d918e7c-5508-45c8-9b0f-8a071f630616" />
+</div>
 
 Based on [this Home Assistant community guide](https://community.home-assistant.io/t/diy-23-55-alternative-to-myq/642620).
 
