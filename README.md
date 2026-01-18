@@ -31,7 +31,7 @@ This project creates a smart garage door controller that:
 **Note 2:** I originally had an outdoor outlet cover as a case for the smart relay but that was too large and I didn't like the look.  So I found that you can modify a Harry's Razor Blade Refill plastic container and it works well as a compact housing.
 
 <div align=center>
-![IMG_0066](https://github.com/user-attachments/assets/33b9a775-b10e-40fa-ba3d-3876914b96e3)
+<img width="357" height="474" alt="image" src="https://github.com/user-attachments/assets/be4d6641-6e3d-432b-a1dd-50292b4efd8d" />
 </div>
 
 ## Wiring Setup
