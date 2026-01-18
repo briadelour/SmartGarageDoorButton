@@ -19,6 +19,8 @@ This project creates a smart garage door controller that:
 | Item | Price | Link |
 |------|-------|------|
 | eWeLink WiFi Smart Relay 1CH-10A | ~$10 | [Amazon](https://www.amazon.com/dp/B0C7QQHMCX) |
+| USB wire and 5V power brick | $0 | sitting around the house |
+| low voltage (22awg) wire for garage door sensors | $0 | found extra in garage |
 | Sonoff DW2 WiFi Door Sensor | ~$8 | [Amazon](https://www.amazon.com/dp/B08BC98RKR) |
 | Battery to AC Power Adapter (optional) | ~$5 | [Amazon](https://www.amazon.com/dp/B0873Y5MQ5) |
 | Modified Chamberlain 883LM (for Security+ 2.0 openers) | ~$30 | Provides dry contact terminals |
