@@ -13,6 +13,7 @@ This project creates a smart garage door controller that:
 - Operates locally without cloud dependency (using SonoffLAN)
 - Provides door status monitoring via a door sensor
 - Costs significantly less than commercial solutions like MyQ
+- If you want something more polished and willing to spend more, I highly recommend checking out the [ratgdo32](https://ratcloud.llc/).
 
 ## Parts List
 
